@@ -101,7 +101,7 @@ def switch_splitting(i3, e, debug, outputs, workspaces, depth_limit, splitwidth,
                     e.ipc_data
                     .get('container', {})
                     .get('scratchpad_state')
-                    != 'none'
+                    == 'fresh'
                     )
 
             # Exclude floating or scratchpad containers, stacked layouts, tabbed layouts and full screen mode
