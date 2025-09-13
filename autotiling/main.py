@@ -61,23 +61,22 @@ def switch_splitting(i3, e, debug, outputs, workspaces, depth_limit, splitwidth,
             return
 
         if con and not workspaces or (str(con.workspace().num) in workspaces):
-            if con.floating:
-                # We're on i3: on sway it would be None
-                # May be 'auto_on' or 'user_on'
-                is_floating = "_on" in con.floating
-            else:
-                # We are on sway
-                is_floating = (con.type == "floating_con"
-                               or
-                               e.ipc_data
-                               .get('container', {})
-                               .get('scratchpad_state')
-                               == 'fresh'
-                               or
-                               e.ipc_data
-                               .get('container', {})
-                               .get('type') == 'floating_con'
-                               )
+            # May be 'auto_on' or 'user_on' in con.floating
+            # Or e.ipc_data.container.scratchpad_state has 'fresh' when a scratchpad container is hidden
+            # Or e.ipc_data.container.type has 'floating_con' when a scratchpad container is closed
+            is_floating = ("_on" in con.floating
+                           or
+                           con.type == "floating_con"
+                           or
+                           e.ipc_data
+                           .get('container', {})
+                           .get('scratchpad_state')
+                           == 'fresh'
+                           or
+                           e.ipc_data
+                           .get('container', {})
+                           .get('type') == 'floating_con'
+                           )
 
             if depth_limit:
                 # Assume we reached the depth limit, unless we can find a workspace
