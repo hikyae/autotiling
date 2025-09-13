@@ -97,12 +97,19 @@ def switch_splitting(i3, e, debug, outputs, workspaces, depth_limit, splitwidth,
             is_full_screen = con.fullscreen_mode == 1
             is_stacked = con.parent.layout == "stacked"
             is_tabbed = con.parent.layout == "tabbed"
+            is_scratchpad = (
+                    e.ipc_data
+                    .get('container', {})
+                    .get('scratchpad_state')
+                    != 'none'
+                    )
 
-            # Exclude floating containers, stacked layouts, tabbed layouts and full screen mode
+            # Exclude floating or scratchpad containers, stacked layouts, tabbed layouts and full screen mode
             if (not is_floating
                     and not is_stacked
                     and not is_tabbed
-                    and not is_full_screen):
+                    and not is_full_screen
+                    and not is_scratchpad):
                 new_layout = "splitv" if con.rect.height > con.rect.width / splitratio else "splith"
 
                 if new_layout != con.parent.layout:
