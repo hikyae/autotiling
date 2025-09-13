@@ -62,16 +62,10 @@ def switch_splitting(i3, e, debug, outputs, workspaces, depth_limit, splitwidth,
 
         if con and not workspaces or (str(con.workspace().num) in workspaces):
             # May be 'auto_on' or 'user_on' in con.floating
-            # Or e.ipc_data.container.scratchpad_state has 'fresh' when a scratchpad container is hidden
-            # Or e.ipc_data.container.type has 'floating_con' when a scratchpad container is closed
+            # Or e.ipc_data.container.type has 'floating_con' when a container is moved to scratchpad or a scratchpad container is closed
             is_floating = ("_on" in con.floating
                            or
                            con.type == "floating_con"
-                           or
-                           e.ipc_data
-                           .get('container', {})
-                           .get('scratchpad_state')
-                           == 'fresh'
                            or
                            e.ipc_data
                            .get('container', {})
